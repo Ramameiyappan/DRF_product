@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Search{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Enter the Product Name</label>
+        <input type="text" id="name" name="product_name" required>
+        <br><br>
+        <input type="submit" name='action' value="Search">
+        {% if not user.is_superuser %}
+            <a href="{% url 'showcart' user=request.user.username%}" class="btn">
+                Order History
+            </a>
+        {% endif %}
+    </form>
+
+    {% if user.is_superuser %}
+        <a href="{% url 'addproduct' %}" class="btn" style="position: absolute;top: 20px;left: 20px; background-color: #5f35dc;">
+            Add Product
+        </a>
+        <a href="{% url 'orderhistory' %}" class="btn" style="position: absolute;top: 20px;left: 150px; background-color: #5f35dc;">
+            Order History
+        </a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'D:\ecommerce\ecommerce\user\templates\base.html' %}
+    
+{% block title %}Product Show{% endblock %}
+
+{% block content %}    
+    <div class="card">
+        <h1 style="text-align: center;">Product Details</h1>
+        <p>Name: {{ data.name.value }}</p>
+        <p>Price: {{ data.price.value  }}</p>
+        <p>Description: {{ data.description.value  }}</p>
+        <p>Stock Available : {{ data.stock.value  }}</p>
+        {% if not user.is_superuser %}
+        <form method="post" style="padding: 0px 0px;">
+            {% csrf_token %}
+            <input type="submit" name="action" value="Add to Cart">
+            <input type="submit" name="action" value="Back to Search">
+            <input type="submit" name="action" value="Order History">
+        </form>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    {% endif %}
+    {% if user.is_superuser %}
+        <a href="{% url 'addproduct' %}" class="btn" style="position: absolute;top: 20px;left: 20px; background-color: #5f35dc;">
+            Add Product
+        </a>
+        <a href="{% url 'orderhistory' %}" class="btn" style="position: absolute;top: 20px;left: 150px; background-color: #5f35dc;">
+            Order History
+        </a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'show.html' %}
+
+{% block title %}Order History{% endblock %}
+
+{% block option %}
+    {% if user.is_superuser %}
+    <a href="{% url 'addproduct' %}" class="btn" style="position: absolute;top: 20px;left: 20px; background-color: #5f35dc;">
+        Add Product
+    </a>
+    <a href="{% url 'orderhistory' %}" class="btn" style="position: absolute;top: 20px;left: 150px; background-color: #5f35dc;">
+        Order History
+    </a>
+    <a href="{% url 'product' %}" class="btn" style="position: absolute;top: 20px;left: 280px; background-color: #5f35dc;">
+        Product Search
+    </a>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        {% block title %}
+        Cart History
+        {% endblock %}
+    </title>
+    <style>
+        body {
+            background-color: aquamarine;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="submit"] {
+            background-color: #3556dc;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+        {% for i in messages %}
+            <script>
+                alert("{{ i }}");
+            </script>
+        {% endfor %}
+    {% endif %}
+    {% block option %}
+        <a href="{% url 'product' %}" class="btn" style="position: absolute;top: 20px;left: 20px; background-color: #5f35dc;">
+            Product Search
+        </a>
+    {% endblock %}
+    <table>
+        <tr>
+            <th>Customer Name</th>
+            <th>Product Name</th>
+            <th>Order Date</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+            <tr>
+                <td>{{i.customer|upper}}</td>
+                <td>{{i.product|upper}}</td>
+                <td>{{i.date}}</td>
+                <td>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="cart_id" value="{{ i.id }}">
+                        <input type="submit" name="action" value="Delete" class="btn" style="background-color:#dc3545;">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</body>
